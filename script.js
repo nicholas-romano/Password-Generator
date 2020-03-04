@@ -31,6 +31,13 @@ function writePassword() {
         }
         console.log("password length: " + passwordLength);
 
+        //Ask if they want special characters:
+        specialCharacters = yesOrNo("Do you want your password to contain special characters? Enter either 'y' for yes or 'n' for no.");
+        if (specialCharacters === null) { //if cancel button is clicked, return null
+          return null;
+        }
+        console.log("Special Characters? " + specialCharacters);
+
         function setLength() {
 
             //run the loop until valid input is received:
@@ -68,6 +75,46 @@ function writePassword() {
                 
             }
             
+          }
+
+          function yesOrNo(message) {
+
+            //run the loop until valid input is received:
+            while (!validInput) {
+    
+              //pass the appropriate message to the prompt:
+              var input = prompt(message);
+        
+              if (input === null) { //if cancel button is clicked, return null:
+                reset();
+                return input;
+              }
+              else {
+                input = input.toLowerCase(); //convert input to lowercase
+        
+                if (input === 'y' || input === 'n') { //check if input is either y or n
+                  return input;
+                }
+                else {
+                  //if input is not either y or n, run the while loop again:
+                  validInput = false;
+                }
+                //input is not valid, display error:
+                alert("Invalid input. Enter either 'y' for yes or 'n' for no.");
+              }
+              
+            }
+    
+          }
+
+           //reset all variables to their original values when the cancel button is pressed:
+          function reset() { 
+            passwordLength = 0;
+            specialCharacters = false;
+            numbers = false;
+            uppercase = false;
+            lowercase = false;
+            validInput = false;
           }
 
   }
