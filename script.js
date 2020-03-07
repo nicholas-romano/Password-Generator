@@ -1,5 +1,6 @@
 // Assignment Code
 var generateBtn = document.querySelector("#generate");
+var copyButton = document.querySelector("#copy");
 
 //Global Variables:
 var passwordLength = 0;
@@ -17,14 +18,26 @@ var uppercaseLetters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', '
 
 // Write password to the #password input
 function writePassword() {
+  if (copyButton.style.display = "block") {
+    copyButton.style.display = "none";
+  }
   var password = generatePassword();
   var passwordText = document.querySelector("#password");
 
   passwordText.value = password;
 
+  passwordLength = 0;
+  
+  function copyText() { 
+    passwordText.select(); //select text
+    passwordText.setSelectionRange(0, 99999);// for mobile devices
+    document.execCommand("copy"); //copy text
+    copyButton.removeEventListener("click", copyText);
+    alert("Copied!");
+  };
+
   //main program function
   function generatePassword() {
-
       //if the password length has not already been set, ask the user for it, otherwise, move on to the next question:
       if (passwordLength === 0) {
 
@@ -66,7 +79,11 @@ function writePassword() {
           generatePassword();
       }
       else {
+        //validation successful, password displayed, show copy button:
         console.log("Lowercase letters? " + lowercase);
+        //Add Event listener to the copy button:
+        copyButton.addEventListener("click", copyText);
+        copyButton.style.display = "block";
       }  
         
       //After all the input is validated and stored, execute the password algorithm:
