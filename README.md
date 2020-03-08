@@ -15,9 +15,9 @@ is pressed in which case a value of null is returned and the textbox is cleared 
 there from a previous password generated.)
 
 If the user answers 'n' (no) to all of the 4 criteria asked, an error alert is displayed that says: "You must have 
-at least one of the criteria that was previously asked for." In which case, the questions will start from question
-2 (special characters) above and will reference the previously recorded answer for question 1 (password length) for 
-this new sequence.
+at least one of the criteria that was previously asked for." In which case, the textbox will clear, and the copy 
+button will be removed (if it was there previously) and the user will have to answer all of the questions again 
+after pressing the "Generate Password" button.
 
 When all questions are answered with valid criteria, a newly generated password is displayed in the textbox above 
 along with "Copy" button which is displayed above the "Generate Password" button. When this button is clicked, the 

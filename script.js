@@ -18,6 +18,7 @@ var uppercaseLetters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', '
 
 // Write password to the #password input
 function writePassword() {
+  validInput = false;
   if (copyButton.style.display = "block") {
     copyButton.style.display = "none";
   }
@@ -39,63 +40,68 @@ function writePassword() {
   //main program function
   function generatePassword() {
       //if the password length has not already been set, ask the user for it, otherwise, move on to the next question:
-      if (passwordLength === 0) {
 
-        passwordLength = setLength();
-        
-        if (passwordLength === null) { //if cancel button is clicked, return null:
-          return null;
-        }
+          if (passwordLength === 0) {
 
-      }
-      console.log("password length: " + passwordLength);
+            passwordLength = setLength();
+            
+            if (passwordLength === null) { //if cancel button is clicked, return null:
+              return null;
+            }
+    
+          }
+          console.log("password length: " + passwordLength);
+    
+          //Ask if they want special characters:
+          specialCharacters = yesOrNo("Do you want your password to contain special characters? Enter either 'y' for yes or 'n' for no.");
+          if (specialCharacters === null) { //if cancel button is clicked, return null
+            return null;
+          }
+          console.log("Special Characters? " + specialCharacters);
+          //Ask if they want numbers:
+          numbers = yesOrNo("Do you want your password to contain numbers? Enter either 'y' for yes or 'n' for no.");
+          if (numbers === null) { //if cancel button is clicked, return null
+            return null;
+          }
+          console.log("numbers? " + numbers);
+          //Ask if they want uppercase letters:
+          uppercase = yesOrNo("Do you want your password to contain uppercase letters? Enter either 'y' for yes or 'n' for no.");
+          if (uppercase === null) { //if cancel button is clicked, return null
+            return null;
+          }
+          console.log("Uppercase Letters? " + uppercase);
+          //Ask if they want lowercase letters:
+          lowercase = yesOrNo("Do you want your password to contain lowercase letters? Enter either 'y' for yes or 'n' for no.");
+          if (lowercase === null) { //if cancel button is clicked, return null
+            return null;
+          }
+          else if (specialCharacters === 'n' && numbers === 'n' && uppercase === 'n' && lowercase === 'n') {
+              //if the user answered 'n' to all yes or no questions, alert them with an error and ask them the questions again:
+              alert("You must have at least one of the criteria that was previously asked for."); 
+              validInput = false; 
+              return null
+          }
+          else {
+            //validation successful, password displayed, show copy button:
+            console.log("Lowercase letters? " + lowercase);
+            //Add Event listener to the copy button:
+            copyButton.addEventListener("click", copyText);
+            copyButton.style.display = "block";
+            validInput = true;
+    
+            //After all the input is validated and stored, execute the password algorithm:
+            var newPassword = executeAlgorithm();
+              
+            //Convert the resulting array to a string:
+            var passwordString = convertToString(newPassword);
+    
+            return passwordString;
+          }  
+          
 
-      //Ask if they want special characters:
-      specialCharacters = yesOrNo("Do you want your password to contain special characters? Enter either 'y' for yes or 'n' for no.");
-      if (specialCharacters === null) { //if cancel button is clicked, return null
-        return null;
-      }
-      console.log("Special Characters? " + specialCharacters);
-      //Ask if they want numbers:
-      numbers = yesOrNo("Do you want your password to contain numbers? Enter either 'y' for yes or 'n' for no.");
-      if (numbers === null) { //if cancel button is clicked, return null
-        return null;
-      }
-      console.log("numbers? " + numbers);
-      //Ask if they want uppercase letters:
-      uppercase = yesOrNo("Do you want your password to contain uppercase letters? Enter either 'y' for yes or 'n' for no.");
-      if (uppercase === null) { //if cancel button is clicked, return null
-        return null;
-      }
-      console.log("Uppercase Letters? " + uppercase);
-      //Ask if they want lowercase letters:
-      lowercase = yesOrNo("Do you want your password to contain lowercase letters? Enter either 'y' for yes or 'n' for no.");
-      if (lowercase === null) { //if cancel button is clicked, return null
-        return null;
-      }
-      else if (specialCharacters === 'n' && numbers === 'n' && uppercase === 'n' && lowercase === 'n') {
-          //if the user answered 'n' to all yes or no questions, alert them with an error and ask them the questions again:
-          alert("You must have at least one of the criteria that was previously asked for.");  
-          generatePassword();
-      }
-      else {
-        //validation successful, password displayed, show copy button:
-        console.log("Lowercase letters? " + lowercase);
-        //Add Event listener to the copy button:
-        copyButton.addEventListener("click", copyText);
-        copyButton.style.display = "block";
-      }  
-        
-      //After all the input is validated and stored, execute the password algorithm:
-      var newPassword = executeAlgorithm();
-      
-      //Convert the resulting array to a string:
-      var passwordString = convertToString(newPassword);
-
-      return passwordString;
 
         function setLength() {
-
+            
             //run the loop until valid input is received:
             while (!validInput) {
     
@@ -177,7 +183,7 @@ function writePassword() {
           }
     
           function executeAlgorithm() {
-    
+
             //initialize an array to store all character lists, and empty password array, and a character variable:
             var combinedLists = [];    
             var passwordArray = [];
